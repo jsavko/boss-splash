@@ -67,7 +67,7 @@ Hooks.once("init", async function () {
         default: null,
         config: true,
         type: String,
-        filePicker: true,
+        filePicker: "audio",
       
     });
 
@@ -154,7 +154,7 @@ export class BossSplashOverlay extends Application {
         context.colorFirst = this.options.colorFirst ?? game.settings.get('boss-splash','colorFirst');
         context.colorSecond = this.options.colorSecond ?? game.settings.get('boss-splash','colorSecond');
         context.colorThird = this.options.colorThird ?? game.settings.get('boss-splash','colorThird');
-        context.sound = this.options.sound ?? null;
+        context.sound = this.options.sound ?? game.settings.get('boss-splash','bossSound');
         let actor = game.actors.get(context.actor)
         context.actorName = actor.name;
         context.actorImg = actor.img;
