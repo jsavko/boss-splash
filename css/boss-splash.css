@@ -38,8 +38,8 @@
 
 .colorFirst h2 {
   position: relative;
-  color: white;
-  text-shadow: 3px 3px BLACK;
+   /* color: white;
+  text-shadow: 3px 3px BLACK; */
   font-size: 100px;
   text-align: right;
   margin-right: 15%;

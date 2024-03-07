@@ -48,7 +48,24 @@ Hooks.once("init", async function () {
         config: true
     });
 
-    let sounds = 
+    game.settings.register("boss-splash", "colorFont", {
+        name: "SETTINGS.BossSplashColorFont",
+        hint: "SETTINGS.BossSplashColorFontHint",
+        scope: "world",
+        type: String,
+        default: '#ffffff',
+        config: true
+    });
+
+    game.settings.register("boss-splash", "colorShadow", {
+        name: "SETTINGS.BossSplashColorShadow",
+        hint: "SETTINGS.BossSplashColorShadowHint",
+        scope: "world",
+        type: String,
+        default: '#000000',
+        config: true
+    });
+
     game.settings.register("boss-splash", "bossSound", {
         name: "SETTINGS.BossSplashSound",
         hint: "SETTINGS.BossSplashSoundHint",
@@ -57,6 +74,16 @@ Hooks.once("init", async function () {
         config: true,
         type: String,
         filePicker: "audio",
+      
+    });
+
+    game.settings.register("boss-splash", "splashTimer", {
+        name: "SETTINGS.BossSplashTimer",
+        hint: "SETTINGS.BossSplashTimerHint",
+        scope: "world",
+        default: 5,
+        config: true,
+        type: Number,
       
     });
 
@@ -73,6 +100,13 @@ Hooks.on('renderSettingsConfig', (app, el, data) => {
 
     el.find('[name="boss-splash.colorThird"]').parent()
       .append(`<input type="color" value="${game.settings.get('boss-splash','colorThird')}" data-edit="boss-splash.colorThird">`)
+    
+    el.find('[name="boss-splash.colorFont"]').parent()
+      .append(`<input type="color" value="${game.settings.get('boss-splash','colorFont')}" data-edit="boss-splash.colorFont">`)
+
+      el.find('[name="boss-splash.colorShadow"]').parent()
+      .append(`<input type="color" value="${game.settings.get('boss-splash','colorShadow')}" data-edit="boss-splash.colorShadow">`)
+
 
 });
 
@@ -146,10 +180,13 @@ function displayBossOverlay(options={}) {
         }, true);
     }
 
+    //
+    let timerLength = options.timer ?? game.settings.get('boss-splash','splashTimer') * 1000
+
 
     setTimeout(function() {
         overlay.close({force:true})
-    }, 5000);
+    }, timerLength);
     
 }
 
@@ -177,7 +214,9 @@ export class BossSplashOverlay extends Application {
             sound:null, 
             colorFirst: null,
             colorSecond: null,
-            colorThird: null
+            colorThird: null,
+            colorFont: null,
+            colorShadow: null
         });
     }
 
@@ -188,6 +227,8 @@ export class BossSplashOverlay extends Application {
         context.colorFirst = this.options.colorFirst ?? game.settings.get('boss-splash','colorFirst');
         context.colorSecond = this.options.colorSecond ?? game.settings.get('boss-splash','colorSecond');
         context.colorThird = this.options.colorThird ?? game.settings.get('boss-splash','colorThird');
+        context.colorFont = this.options.colorFont ?? game.settings.get('boss-splash','colorFont');
+        context.colorShadow = this.options.colorShadow ?? game.settings.get('boss-splash','colorShadow');
         context.sound = this.options.sound ?? game.settings.get('boss-splash','bossSound');
         let actor = game.actors.get(context.actor)
         context.actorName = actor.name;
