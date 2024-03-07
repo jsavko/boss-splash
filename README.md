@@ -14,6 +14,7 @@ Settings
 Activate the splash screen via 3 methods:
 
 Token HUD
+
 ![image](https://github.com/jsavko/boss-splash/assets/192591/a10cd2c2-cb84-4399-ac86-343b7de26fb6)
 
 
