@@ -1,24 +1,13 @@
 Hooks.once("init", async function () {
     console.log('Boss Splash Init - Registrering Socket')
     game.socket.on("module.boss-splash", (data) => {
-        displayBossOverlay(data.actor);
+        console.log(data);
+        displayBossOverlay(data);
     })
 
     game.bossSplash = { 
-        emiteBoss: async function () {
-            if (!game.user.isGM) {
-                ui.notifications.warn("You must be a GM to use this command.");
-                return;
-            }
-            if (canvas.tokens.controlled.length == 0 && game.user.isGM) {
-                ui.notifications.warn("Please select a character token.");
-                return;
-            }
-            await game.socket.emit("module.boss-splash", {actor: canvas.tokens.controlled[0].document.actorId});
-            //display for yourself
-            displayBossOverlay(canvas.tokens.controlled[0].document.actorId);
-
-        },
+        splashBoss: splashBoss,
+        emiteBoss: splashBoss,
         bossOverlay: BossSplashOverlay
 }
 
@@ -85,16 +74,72 @@ Hooks.on('renderSettingsConfig', (app, el, data) => {
     el.find('[name="boss-splash.colorThird"]').parent()
       .append(`<input type="color" value="${game.settings.get('boss-splash','colorThird')}" data-edit="boss-splash.colorThird">`)
 
-    });
+});
+
+Hooks.on('renderTokenHUD', (app, html, context) => { 
+    if (game.user.isGM) {
+        const token = app?.object?.document; 
+        const button = $(`<div class="control-icon boss-splash" title="Splash Boss"><i class="fa-solid fa-bullhorn"></i></div>`);
+        button.on('mouseup', () => { 
+            game.bossSplash.splashBoss()
+        } );
+        const column = '.col.left';
+        html.find(column).append(button);
+    }
+});
 
 
-function displayBossOverlay(actor) { 
-    let overlay = new game.bossSplash.bossOverlay({actor:actor})
+
+Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
+    if (game.user.isGM) { 
+        options.push(
+            {
+              "name": `Splash Actor`,
+              "icon": `<i class="fa-solid fa-bullhorn"></i>`,
+              "element": {},
+              callback: li => {
+                splashBoss({actor: li.data("documentId")})
+              }
+            }
+          )
+    }
+  })
+
+
+
+    async function splashBoss(options={}) {
+
+        const actor = options.actor ?? canvas.tokens.controlled[0].document.actorId;
+        const sound = options.sound ?? null;
+        options.actor = actor;
+        options.sound = sound;
+
+        console.log(options)
+        if (!game.user.isGM) {
+            ui.notifications.warn("You must be a GM to use this command.");
+            return;
+        }
+        if ((!actor) && game.user.isGM) {
+            ui.notifications.warn("Please select a character token.");
+            return;
+        }
+        await game.socket.emit("module.boss-splash", options);
+        //display for yourself
+        displayBossOverlay(options);
+
+    }
+
+
+function displayBossOverlay(options={}) { 
+    let overlay = new game.bossSplash.bossOverlay(options);
     overlay.render(true);
 
-    if(!!game.settings.get('boss-splash','bossSound')) {
+    const sound = options.sound ?? game.settings.get('boss-splash','bossSound');
+    console.log(options)
+
+    if(!!sound) {
         AudioHelper.play({
-            src: game.settings.get('boss-splash','bossSound'),
+            src: sound,
             volume: 0.5,
             autoplay: true,
             loop: false
@@ -147,7 +192,6 @@ export class BossSplashOverlay extends Application {
         let actor = game.actors.get(context.actor)
         context.actorName = actor.name;
         context.actorImg = actor.img;
-
         return context;
     }    
 
