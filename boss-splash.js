@@ -1,7 +1,6 @@
 Hooks.once("init", async function () {
     console.log('Boss Splash Init - Registrering Socket')
     game.socket.on("module.boss-splash", (data) => {
-        console.log(data);
         displayBossOverlay(data);
     })
 
@@ -148,7 +147,6 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
         options.actor = actor;
         options.sound = sound;
 
-        console.log(options)
         if (!game.user.isGM) {
             ui.notifications.warn("You must be a GM to use this command.");
             return;
@@ -169,7 +167,6 @@ function displayBossOverlay(options={}) {
     overlay.render(true);
 
     const sound = options.sound ?? game.settings.get('boss-splash','bossSound');
-    console.log(options)
 
     if(!!sound) {
         AudioHelper.play({
