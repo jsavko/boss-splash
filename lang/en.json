@@ -4,7 +4,7 @@
     "SETTINGS.BossSplashColorSecond": "Middle Color",
     "SETTINGS.BossSplashColorSecondHint": "Hex Code of Color for Second Color Bar",
     "SETTINGS.BossSplashColorThird": "Bottom Color",
-    "SETTINGS.BossSplashColorThirdHunt": "Hex Code of Color for Third Color Bar",
+    "SETTINGS.BossSplashColorThirdHint": "Hex Code of Color for Third Color Bar",
     "SETTINGS.BossSplashSound":"Sound",
     "SETTINGS.BossSplashSoundHint":"Play this sound when the splashscreen is rendered",
     "BossSplash.ErrorGM":"You must be a GM to use this command.",
