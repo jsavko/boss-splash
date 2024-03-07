@@ -128,7 +128,7 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
     if (game.user.isGM) { 
         options.push(
             {
-              "name": `Splash Actor`,
+              "name": `Splash Boss`,
               "icon": `<i class="fa-solid fa-bullhorn"></i>`,
               "element": {},
               callback: li => {
