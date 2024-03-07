@@ -33,7 +33,7 @@
   height: 100px;
   width:100%; 
   display:block;
-  background-color: #ffd502; 
+  /* background-color: #ffd502; */
 }
 
 .colorFirst h2 {
@@ -52,12 +52,12 @@
   height: 30px;
   width: 100%; 
   display:block;
-  background-color: #ff8400; 
+  /* background-color: #ff8400; */
 }
 
 .colorThird { 
   height: 15px;
   width: 100%; 
   display:block;
-  background-color: #ff1f9c; 
+  /* background-color: #ff1f9c; */
 }
