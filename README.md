@@ -29,7 +29,7 @@ game.bossSplash.splashBoss({
   colorFirst: hexColor,
   colorSecond:hexColor,
   colorThird: hexColor,
-  fontColor: hexColor,
-  fontShadow: hexColor,
+  colorFont: hexColor,
+  colorShadow: hexColor,
   timer: number miliseconds})
   ```
