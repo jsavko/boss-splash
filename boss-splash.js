@@ -78,16 +78,12 @@ Hooks.on('renderSettingsConfig', (app, el, data) => {
     // Insert color picker input
     el.find('[name="boss-splash.colorFirst"]').parent()
       .append(`<input type="color" value="${game.settings.get('boss-splash','colorFirst')}" data-edit="boss-splash.colorFirst">`)
-    // Insert preview icon
-          // Insert color picker input
-    el.find('[name="boss-splash.colorSecond"]').parent()
-    .append(`<input type="color" value="${game.settings.get('boss-splash','colorSecond')}" data-edit="boss-splash.colorSecond">`)
-    // Insert preview icon
 
-        // Insert color picker input
+      el.find('[name="boss-splash.colorSecond"]').parent()
+    .append(`<input type="color" value="${game.settings.get('boss-splash','colorSecond')}" data-edit="boss-splash.colorSecond">`)
+
     el.find('[name="boss-splash.colorThird"]').parent()
       .append(`<input type="color" value="${game.settings.get('boss-splash','colorThird')}" data-edit="boss-splash.colorThird">`)
-    // Insert preview icon
 
     });
 
