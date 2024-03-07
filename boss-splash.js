@@ -79,22 +79,15 @@ Hooks.on('renderSettingsConfig', (app, el, data) => {
     el.find('[name="boss-splash.colorFirst"]').parent()
       .append(`<input type="color" value="${game.settings.get('boss-splash','colorFirst')}" data-edit="boss-splash.colorFirst">`)
     // Insert preview icon
-    el.find('[data-tab="favorite-items"] h2')
-      .append(` - <i class="favorite-preview fa-solid ${game.settings.get('boss-splash','colorFirst')}" style="color: ${game.settings.get('boss-splash','colorFirst')}"></i>`)//.css({'color':'red'})
-
           // Insert color picker input
     el.find('[name="boss-splash.colorSecond"]').parent()
     .append(`<input type="color" value="${game.settings.get('boss-splash','colorSecond')}" data-edit="boss-splash.colorSecond">`)
     // Insert preview icon
-    el.find('[data-tab="favorite-items"] h2')
-    .append(` - <i class="favorite-preview fa-solid ${game.settings.get('boss-splash','colorSecond')}" style="color: ${game.settings.get('boss-splash','colorSecond')}"></i>`)//.css({'color':'red'})
 
         // Insert color picker input
     el.find('[name="boss-splash.colorThird"]').parent()
       .append(`<input type="color" value="${game.settings.get('boss-splash','colorThird')}" data-edit="boss-splash.colorThird">`)
     // Insert preview icon
-    el.find('[data-tab="favorite-items"] h2')
-      .append(` - <i class="favorite-preview fa-solid ${game.settings.get('boss-splash','colorThird')}" style="color: ${game.settings.get('boss-splash','colorThird')}"></i>`)//.css({'color':'red'})
 
     });
 
