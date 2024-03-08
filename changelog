@@ -1,0 +1,9 @@
+1.0.1
+Added message and actorImg overrides
+Added default message settings
+Added animation slide in
+Added options for animation slide in timing
+Optional - target actor not needed if using acotrImg and message
+
+1.0.0
+Initial Release

@@ -13,6 +13,10 @@
     "SETTINGS.BossSplashTimerHint": "Number of Seconds for the splash screen to stay active",
     "SETTINGS.BossSplashSound":"Sound",
     "SETTINGS.BossSplashSoundHint":"Play this sound when the splashscreen is rendered",
+    "SETTINGS.BossSplashMessage":"Displayed message",
+    "SETTINGS.BossSplashMessageHint":"Message dispalyed on the color bar. {{name}} will be replaced with actor name.",
+    "SETTINGS.BossSplashAnimationDuration":"Animation Duration",
+    "SETTINGS.BossSplashAnimationDurationHint":"Number of seconds for animation to finish. Set this to 0 for no animation.",
     "BossSplash.ErrorGM":"You must be a GM to use this command.",
     "BossSplash.ErrorToken":"Please select a character token."
 

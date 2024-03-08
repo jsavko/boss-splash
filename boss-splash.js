@@ -76,6 +76,16 @@ Hooks.once("init", async function () {
       
     });
 
+    game.settings.register("boss-splash", "splashMessage", {
+        name: "SETTINGS.BossSplashMessage",
+        hint: "SETTINGS.BossSplashMessageHint",
+        scope: "world",
+        default: "{{name}}",
+        config: true,
+        type: String,
+      
+    });
+
     game.settings.register("boss-splash", "splashTimer", {
         name: "SETTINGS.BossSplashTimer",
         hint: "SETTINGS.BossSplashTimerHint",
@@ -85,7 +95,15 @@ Hooks.once("init", async function () {
         type: Number,
       
     });
-
+    game.settings.register("boss-splash", "animationDuration", {
+        name: "SETTINGS.BossSplashAnimationDuration",
+        hint: "SETTINGS.BossSplashAnimationDurationHint",
+        scope: "world",
+        default: 3,
+        config: true,
+        type: Number,
+      
+    });
 
 });
 
@@ -139,27 +157,32 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
   })
 
 
-
     async function splashBoss(options={}) {
-
-        const actor = options.actor ?? canvas.tokens.controlled[0].document.actorId;
-        const sound = options.sound ?? null;
-        options.actor = actor;
-        options.sound = sound;
-
         if (!game.user.isGM) {
             ui.notifications.warn("You must be a GM to use this command.");
             return;
         }
-        if ((!actor) && game.user.isGM) {
+
+        let validOptions = false
+        options.sound  = options.sound ?? null;
+
+        if (options.actor) { 
+            validOptions = true;
+        } else if (options.message && options.actorImg) { 
+            validOptions = true;
+        } else if ( canvas.tokens.controlled.length) {
+            options.actor = canvas.tokens.controlled[0]?.document.actorId;
+            validOptions = true;
+        } 
+
+        if ((!validOptions) && game.user.isGM) {
             ui.notifications.warn("Please select a character token.");
             return;
         }
         await game.socket.emit("module.boss-splash", options);
         //display for yourself
         displayBossOverlay(options);
-
-    }
+    }  
 
 
 function displayBossOverlay(options={}) { 
@@ -213,7 +236,10 @@ export class BossSplashOverlay extends Application {
             colorSecond: null,
             colorThird: null,
             colorFont: null,
-            colorShadow: null
+            colorShadow: null,
+            actorImg: null,
+            message: null,
+            animationDuration: null
         });
     }
 
@@ -228,8 +254,13 @@ export class BossSplashOverlay extends Application {
         context.colorShadow = this.options.colorShadow ?? game.settings.get('boss-splash','colorShadow');
         context.sound = this.options.sound ?? game.settings.get('boss-splash','bossSound');
         let actor = game.actors.get(context.actor)
-        context.actorName = actor.name;
-        context.actorImg = actor.img;
+        context.message = this.options.message ?? game.settings.get('boss-splash','splashMessage');
+        if (actor) { 
+            context.message = context.message.replace('{{name}}', actor.name);
+        }
+        context.actorImg = this.options.actorImg ?? actor.img;
+        context.animationDuration = this.options.animationDuration ?? game.settings.get('boss-splash','animationDuration');
+
         return context;
     }    
 
@@ -241,5 +272,11 @@ export class BossSplashOverlay extends Application {
     async refresh(force) {
         return foundry.utils.debounce(this.render.bind(this, force), 100)();
     }
+
+    activateListeners(html) {
+        super.activateListeners(html);
+        //html.find('[name=actorImg]').animate({left: '825px'}, 5000);
+        //html.find('[name=bossMessage]').animate({left: '50px'}, 5000);
+      }
 
 }

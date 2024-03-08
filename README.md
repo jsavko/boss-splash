@@ -21,15 +21,53 @@ Actor Directory Context Menu
 
 
 Macro
-
 ```
-game.bossSplash.splashBoss({
-  actor: id,
-  sound: path,
-  colorFirst: hexColor,
-  colorSecond:hexColor,
-  colorThird: hexColor,
-  colorFont: hexColor,
-  colorShadow: hexColor,
-  timer: number miliseconds})
-  ```
+/**
+ * Displays a splash screen with the Actor Image and Text
+ * Any options not included will use their default values from the module settings.
+ * If options message and actorImg are both included you do not need a target actor of selected token.
+    * @param {string} actor  id of actor.
+    * @param {string} sound  Path to an audio file to be played when splash screen is rendered.
+    * @param {string} colorFirst  Hex value for the color of the top bar in the banner.
+    * @param {string} colorSecond  Hex value for the color of the middle bar in the banner.
+    * @param {string} colorThird  Hex value for the color of the middle bar in the banner.
+    * @param {string} colorFont  Hex value for the text color of the message.
+    * @param {string} colorShadow  Hex value for the drop shadow color of the message.
+    * @param {string} message  The message to be rendered in the color bar. {{name}} will be replaced with the actor name
+    * @param {string} actorImg  Path to an image to display on the banner.
+    * @param {number} timer  Number of miliseconds for splash screen to be rendered.
+    * @param {number} animationDuration  Number of seconds to complete the slide in animation.
+
+    * 
+ */
+
+let options = {
+  actor: null,
+  sound: null,
+  colorFirst: null,
+  colorSecond:null,
+  colorThird: null, 
+  colorFont: null,
+  colorShadow: null,
+  message: null, 
+  actorImg: null,
+  timer: null,
+  animationDuration: null
+};
+
+game.bossSplash.splashBoss(options);
+```
+
+Examples
+
+Splash currently selected Token's Actor 
+```game.bossSplash.splashBoss()```
+
+Splash A specific Actor 
+```game.bossSplash.splashBoss({actor:"WNX5OQKPh4uaV7mW"})```
+
+Splash the currently selected Token with all black bars
+```game.bossSplash.splashBoss({colorFirst:"#000000",colorSecond:"#000000",colorThird:"#000000"})```
+
+Splash specific art and message
+```game.bossSplash.splashBoss({message:"Valeros The Mighty!", actorImg:"modules/pf2e-beginner-box/assets/portraits-heroes/iconics/valeros-2.webp"})```

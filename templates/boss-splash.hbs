@@ -1,12 +1,23 @@
 
 <div class='bossOverlay'>
+  <style>
+    .slide-right {
+  animation-duration: {{animationDuration}}s;
+  animation-name:  slide-right;
+}
+
+.slide-left { 
+  animation-duration: {{animationDuration}}s;
+  animation-name:  slide-left;
+}
+  </style>
   <div class="actorArt">
-  <img src="{{actorImg}}"> 
+  <img name="actorImg" class="slide-left" src="{{actorImg}}"> 
   </div>
   <div class='colorBand'>
     <div class='colorFirst' style="background-color: {{colorFirst}}">
-          <h2 style="color: {{colorFont}}; text-shadow: 3px 3px {{colorShadow}};">
-          {{actorName}}
+          <h2 name="bossMessage" class="slide-right" style="color: {{colorFont}}; text-shadow: 3px 3px {{colorShadow}};">
+          {{message}}
           </h2>
     </div>
     <div class='colorSecond' style="background-color: {{colorSecond}}"></div>

@@ -17,7 +17,6 @@
   right: 15%;
   border:none;
   pointer-events: none;
-
 }
 
 .colorBand { 
@@ -42,7 +41,7 @@
   text-shadow: 3px 3px BLACK; */
   font-size: 100px;
   text-align: right;
-  margin-right: 15%;
+  margin-right: 20%;
   top: -30px;
   border-bottom:none;
   text-transform: uppercase;
@@ -60,4 +59,24 @@
   width: 100%; 
   display:block;
   /* background-color: #ff1f9c; */
+}
+
+@keyframes slide-left {
+  from {
+    right: 5%;
+  }
+
+  to {
+    right: 15%;
+  }
+}
+
+@keyframes slide-right {
+  from {
+    margin-right: 30%;
+  }
+
+  to {
+    margin-right: 20%;
+  }
 }
