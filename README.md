@@ -61,13 +61,17 @@ game.bossSplash.splashBoss(options);
 Examples
 
 Splash currently selected Token's Actor 
+
 ```game.bossSplash.splashBoss()```
 
 Splash A specific Actor 
+
 ```game.bossSplash.splashBoss({actor:"WNX5OQKPh4uaV7mW"})```
 
 Splash the currently selected Token with all black bars
+
 ```game.bossSplash.splashBoss({colorFirst:"#000000",colorSecond:"#000000",colorThird:"#000000"})```
 
 Splash specific art and message
+
 ```game.bossSplash.splashBoss({message:"Valeros The Mighty!", actorImg:"modules/pf2e-beginner-box/assets/portraits-heroes/iconics/valeros-2.webp"})```
