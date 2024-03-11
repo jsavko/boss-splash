@@ -34,10 +34,11 @@ Macro
     * @param {string} colorFont  Hex value for the text color of the message.
     * @param {string} colorShadow  Hex value for the drop shadow color of the message.
     * @param {string} message  The message to be rendered in the color bar. {{name}} will be replaced with the actor name
+    * @param {string} fontFamily Font Family name for the message.
     * @param {string} actorImg  Path to an image to display on the banner.
     * @param {number} timer  Number of miliseconds for splash screen to be rendered.
     * @param {number} animationDuration  Number of seconds to complete the slide in animation.
-
+    * @param {bool} close  Closes open overlay for all players.
     * 
  */
 
@@ -50,9 +51,11 @@ let options = {
   colorFont: null,
   colorShadow: null,
   message: null, 
+  fontFamily: null,
   actorImg: null,
   timer: null,
-  animationDuration: null
+  animationDuration: null,
+  close: null
 };
 
 game.bossSplash.splashBoss(options);
@@ -75,3 +78,9 @@ Splash the currently selected Token with all black bars
 Splash specific art and message
 
 ```game.bossSplash.splashBoss({message:"Valeros The Mighty!", actorImg:"modules/pf2e-beginner-box/assets/portraits-heroes/iconics/valeros-2.webp"})```
+
+Open boss splash with no dismisal timer 
+```game.bossSplash.splashBoss({timer:0})```
+
+Close all open splash screens for all players 
+```game.bossSplash.splashBoss({close:true})```

@@ -1,5 +1,5 @@
-Hooks.once("init", async function () {
-    console.log('Boss Splash Init - Registrering Socket')
+Hooks.once("ready", async function () {
+    console.log('Boss Splash Ready - Registrering Socket')
     game.socket.on("module.boss-splash", (data) => {
         displayBossOverlay(data);
     })
@@ -7,7 +7,8 @@ Hooks.once("init", async function () {
     game.bossSplash = { 
         splashBoss: splashBoss,
         emiteBoss: splashBoss,
-        bossOverlay: BossSplashOverlay
+        bossOverlay: BossSplashOverlay,
+        currentOverlay: null
 }
 
     //Register settings
@@ -74,6 +75,16 @@ Hooks.once("init", async function () {
         type: String,
         filePicker: "audio",
       
+    });
+
+    game.settings.register("boss-splash", "fontFamily", {
+        name: "SETTINGS.BossSplashFont",
+        hint: "SETTINGS.BossSplashFontHint",
+        scope: "world",
+        default: "Arial",
+        config: true,
+        type: String,
+        choices: FontConfig.getAvailableFontChoices()
     });
 
     game.settings.register("boss-splash", "splashMessage", {
@@ -159,7 +170,7 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
 
     async function splashBoss(options={}) {
         if (!game.user.isGM) {
-            ui.notifications.warn("You must be a GM to use this command.");
+            ui.notifications.warn(game.i18n.localize("BossSplash.ErrorGM"));
             return;
         }
 
@@ -167,6 +178,8 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
         options.sound  = options.sound ?? null;
 
         if (options.actor) { 
+            validOptions = true;
+        } else if (options.close) { 
             validOptions = true;
         } else if (options.message && options.actorImg) { 
             validOptions = true;
@@ -176,7 +189,7 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
         } 
 
         if ((!validOptions) && game.user.isGM) {
-            ui.notifications.warn("Please select a character token.");
+            ui.notifications.warn(game.i18n.localize("BossSplash.ErrorToken"));
             return;
         }
         await game.socket.emit("module.boss-splash", options);
@@ -186,8 +199,23 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
 
 
 function displayBossOverlay(options={}) { 
+
+    if (options.close) {
+        if(game.bossSplash.currentOverlay){ 
+            game.bossSplash.currentOverlay.close({force:true})
+        }
+        return
+    }
+
+    if (game.bossSplash.currentOverlay) {
+        if (game.user.isGM){ 
+            ui.notifications.warn(game.i18n.localize("BossSplash.ErrorCount"));
+        }
+        return
+    }
     let overlay = new game.bossSplash.bossOverlay(options);
     overlay.render(true);
+    game.bossSplash.currentOverlay = overlay;
 
     const sound = options.sound ?? game.settings.get('boss-splash','bossSound');
 
@@ -203,10 +231,12 @@ function displayBossOverlay(options={}) {
     //
     let timerLength = options.timer ?? game.settings.get('boss-splash','splashTimer') * 1000
 
-
-    setTimeout(function() {
-        overlay.close({force:true})
-    }, timerLength);
+    if (timerLength > 0){
+        //Close overlay after delay
+        setTimeout(async function() {
+                await overlay.close({force:true})
+        }, timerLength);
+   }
     
 }
 
@@ -239,7 +269,8 @@ export class BossSplashOverlay extends Application {
             colorShadow: null,
             actorImg: null,
             message: null,
-            animationDuration: null
+            animationDuration: null,
+            fontFamily: null
         });
     }
 
@@ -260,7 +291,8 @@ export class BossSplashOverlay extends Application {
         }
         context.actorImg = this.options.actorImg ?? actor.img;
         context.animationDuration = this.options.animationDuration ?? game.settings.get('boss-splash','animationDuration');
-
+        context.fontFamily = this.options.fontFamily ?? game.settings.get('boss-splash','fontFamily');
+        //console.log(context)
         return context;
     }    
 
@@ -273,10 +305,13 @@ export class BossSplashOverlay extends Application {
         return foundry.utils.debounce(this.render.bind(this, force), 100)();
     }
 
+    async close(options) { 
+        super.close(options);
+        game.bossSplash.currentOverlay = null;
+    }
+
     activateListeners(html) {
         super.activateListeners(html);
-        //html.find('[name=actorImg]').animate({left: '825px'}, 5000);
-        //html.find('[name=bossMessage]').animate({left: '50px'}, 5000);
       }
 
 }

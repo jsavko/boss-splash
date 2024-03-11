@@ -1,3 +1,10 @@
+1.1.0
+Added fontFamily override and settings for default font for bossSplash
+You can no longer stack overlays on top of each other
+You can now emit a close command to close the displayed overlay using option `{close:true}`
+Moved errors and warinings into localization
+
+
 1.0.1
 Added message and actorImg overrides
 Added default message settings
