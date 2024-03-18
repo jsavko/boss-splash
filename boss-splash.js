@@ -87,6 +87,16 @@ Hooks.once("ready", async function () {
         choices: FontConfig.getAvailableFontChoices()
     });
 
+    
+    game.settings.register("boss-splash", "fontSize", {
+        name: "SETTINGS.BossSplashFontSize",
+        hint: "SETTINGS.BossSplashFontSizeHint",
+        scope: "world",
+        default: "100px",
+        config: true,
+        type: String,
+    });
+
     game.settings.register("boss-splash", "splashMessage", {
         name: "SETTINGS.BossSplashMessage",
         hint: "SETTINGS.BossSplashMessageHint",
@@ -270,7 +280,8 @@ export class BossSplashOverlay extends Application {
             actorImg: null,
             message: null,
             animationDuration: null,
-            fontFamily: null
+            fontFamily: null,
+            fontSize: null
         });
     }
 
@@ -292,6 +303,7 @@ export class BossSplashOverlay extends Application {
         context.actorImg = this.options.actorImg ?? actor.img;
         context.animationDuration = this.options.animationDuration ?? game.settings.get('boss-splash','animationDuration');
         context.fontFamily = this.options.fontFamily ?? game.settings.get('boss-splash','fontFamily');
+        context.fontSize = this.options.fontSize ?? game.settings.get('boss-splash','fontSize');
         //console.log(context)
         return context;
     }    

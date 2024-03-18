@@ -35,6 +35,7 @@ Macro
     * @param {string} colorShadow  Hex value for the drop shadow color of the message.
     * @param {string} message  The message to be rendered in the color bar. {{name}} will be replaced with the actor name
     * @param {string} fontFamily Font Family name for the message.
+    * @param {string} fontSize CSS accepted Size of font.
     * @param {string} actorImg  Path to an image to display on the banner.
     * @param {number} timer  Number of miliseconds for splash screen to be rendered.
     * @param {number} animationDuration  Number of seconds to complete the slide in animation.
@@ -52,6 +53,7 @@ let options = {
   colorShadow: null,
   message: null, 
   fontFamily: null,
+  fontSize: null,
   actorImg: null,
   timer: null,
   animationDuration: null,

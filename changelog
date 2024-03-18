@@ -1,3 +1,6 @@
+1.1.1
+Added fontSize override and settings for default font-size for bossSplash
+
 1.1.0
 Added fontFamily override and settings for default font for bossSplash
 You can no longer stack overlays on top of each other
