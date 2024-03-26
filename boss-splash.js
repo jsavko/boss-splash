@@ -281,7 +281,8 @@ export class BossSplashOverlay extends Application {
             message: null,
             animationDuration: null,
             fontFamily: null,
-            fontSize: null
+            fontSize: null,
+            video: null,
         });
     }
 
@@ -304,6 +305,7 @@ export class BossSplashOverlay extends Application {
         context.animationDuration = this.options.animationDuration ?? game.settings.get('boss-splash','animationDuration');
         context.fontFamily = this.options.fontFamily ?? game.settings.get('boss-splash','fontFamily');
         context.fontSize = this.options.fontSize ?? game.settings.get('boss-splash','fontSize');
+        context.video = this.options.video;
         //console.log(context)
         return context;
     }    
