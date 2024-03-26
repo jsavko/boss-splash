@@ -1,3 +1,8 @@
+1.1.3 
+Added option to stretch video to full screen
+Video splash screens no longer require actor data
+Applying a video proprery will automatically apply video template
+
 1.1.2
 Added video template and video options for those who wish to use them
 

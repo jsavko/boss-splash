@@ -39,6 +39,8 @@ Macro
     * @param {string} actorImg  Path to an image to display on the banner.
     * @param {number} timer  Number of miliseconds for splash screen to be rendered.
     * @param {number} animationDuration  Number of seconds to complete the slide in animation.
+    * @param {string} video  Path to video file for splash screen.
+    * @param {bool} fill  Stretch video to full screen. defaults false
     * @param {bool} close  Closes open overlay for all players.
     * 
  */
@@ -57,7 +59,9 @@ let options = {
   actorImg: null,
   timer: null,
   animationDuration: null,
-  close: null
+  video: null,
+  fill: false,
+  close: null 
 };
 
 game.bossSplash.splashBoss(options);
@@ -86,3 +90,6 @@ Open boss splash with no dismisal timer
 
 Close all open splash screens for all players 
 ```game.bossSplash.splashBoss({close:true})```
+
+Use a video splash 
+```game.bossSplash.splashBoss({video:'/world/myworld/media/Ogre.mp4'})```

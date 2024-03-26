@@ -189,6 +189,8 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
 
         if (options.actor) { 
             validOptions = true;
+        } else if (options.video) {
+            validOptions = true;
         } else if (options.close) { 
             validOptions = true;
         } else if (options.message && options.actorImg) { 
@@ -254,6 +256,9 @@ function displayBossOverlay(options={}) {
 export class BossSplashOverlay extends Application {
 
     constructor(...args) {
+        if(args[0].video) {
+            args[0].template = "modules/boss-splash/templates/boss-splash-video.hbs"
+        }
         super(...args);
     }
 
@@ -269,7 +274,7 @@ export class BossSplashOverlay extends Application {
             id: "boss-splash-overlay",
             popOut: false,
             classes: ["bossplash"],
-            template: "modules/boss-splash/templates/boss-splash.hbs",
+            template: 'modules/boss-splash/templates/boss-splash.hbs',
             actor:null,
             sound:null, 
             colorFirst: null,
@@ -283,9 +288,11 @@ export class BossSplashOverlay extends Application {
             fontFamily: null,
             fontSize: null,
             video: null,
+            fill: false
         });
     }
 
+    
 
     async getData(options={}) {
         const context = super.getData(options);
@@ -300,12 +307,15 @@ export class BossSplashOverlay extends Application {
         context.message = this.options.message ?? game.settings.get('boss-splash','splashMessage');
         if (actor) { 
             context.message = context.message.replace('{{name}}', actor.name);
+            context.actorImg = this.options.actorImg ?? actor.img;
+        } else { 
+            context.actorImg = this.options.actorImg
         }
-        context.actorImg = this.options.actorImg ?? actor.img;
         context.animationDuration = this.options.animationDuration ?? game.settings.get('boss-splash','animationDuration');
         context.fontFamily = this.options.fontFamily ?? game.settings.get('boss-splash','fontFamily');
         context.fontSize = this.options.fontSize ?? game.settings.get('boss-splash','fontSize');
         context.video = this.options.video;
+        context.fill = this.options.fill;
         //console.log(context)
         return context;
     }    
