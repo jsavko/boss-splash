@@ -1,4 +1,4 @@
-Hooks.once("ready", async function () {
+Hooks.once("i18nInit", async function () {
     console.log('Boss Splash Ready - Registrering Socket')
     game.socket.on("module.boss-splash", (data) => {
         displayBossOverlay(data);
@@ -12,6 +12,25 @@ Hooks.once("ready", async function () {
 }
 
     //Register settings
+
+    const permissionLevels = [
+        game.i18n.localize("SETTINGS.BossSplashPermission.Player"),
+        game.i18n.localize("SETTINGS.BossSplashPermission.Trusted"),
+        game.i18n.localize("SETTINGS.BossSplashPermission.Assistant"),
+        game.i18n.localize("SETTINGS.BossSplashPermission.GM")
+    ];
+    
+    game.settings.register("boss-splash", "permissions-emit", {
+        name: "SETTINGS.BossSplashPermission.Title",
+        hint: "SETTINGS.BossSplashPermission.TitleHint",
+        scope: "world",
+        config: true,
+        default: 3,
+        type: Number,
+        choices: permissionLevels,
+        onChange: debouncedReload
+    });
+
     game.settings.register("boss-splash", "colorFirst", {
         name: "SETTINGS.BossSplashColorFirst",
         hint: "SETTINGS.BossSplashColorFirstHint",
@@ -126,6 +145,8 @@ Hooks.once("ready", async function () {
       
     });
 
+
+
 });
 
 Hooks.on('renderSettingsConfig', (app, el, data) => {
@@ -149,7 +170,7 @@ Hooks.on('renderSettingsConfig', (app, el, data) => {
 });
 
 Hooks.on('renderTokenHUD', (app, html, context) => { 
-    if (game.user.isGM) {
+    if ( game.user.role >= game.settings.get("boss-splash", "permissions-emit")) {
         const token = app?.object?.document; 
         const button = $(`<div class="control-icon boss-splash" title="Splash Boss"><i class="fa-solid fa-bullhorn"></i></div>`);
         button.on('mouseup', () => { 
@@ -163,7 +184,7 @@ Hooks.on('renderTokenHUD', (app, html, context) => {
 
 
 Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
-    if (game.user.isGM) { 
+    if ( game.user.role >= game.settings.get("boss-splash", "permissions-emit")) {
         options.push(
             {
               "name": `Splash Boss`,
@@ -179,7 +200,8 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
 
 
     async function splashBoss(options={}) {
-        if (!game.user.isGM) {
+        //if (!game.user.isGM) {
+        if ( game.user.role <= game.settings.get("boss-splash", "permissions-emit")) { 
             ui.notifications.warn(game.i18n.localize("BossSplash.ErrorGM"));
             return;
         }

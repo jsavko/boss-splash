@@ -21,7 +21,13 @@
     "SETTINGS.BossSplashFontHint":"Add new fonts to foundry using the built in font tool to use differnt fonts.",
     "SETTINGS.BossSplashFontSize":"Banner Font Size",
     "SETTINGS.BossSplashFontSizeHint":"Any css value that is valid for font-size property.  Please use `# px` if using a specific value",
-    "BossSplash.ErrorGM":"You must be a GM to use this command.",
+    "SETTINGS.BossSplashPermission.Player":"Player and Above",
+    "SETTINGS.BossSplashPermission.Trusted":"Trusted Player and Above",
+    "SETTINGS.BossSplashPermission.Assistant":"Assistant GM and Above",
+    "SETTINGS.BossSplashPermission.GM":"Gamemaster Only",
+    "SETTINGS.BossSplashPermission.Title": "Emit Splashscreen",
+    "SETTINGS.BossSplashPermission.TitleHint": "Allow players with the selected role and above to send a Splash Screen.",
+    "BossSplash.ErrorGM":"Your account level is not permitted to use this command.",
     "BossSplash.ErrorToken":"Please select a character token.",
     "BossSplash.ErrorCount":"You may only display single overlay at time."
 
