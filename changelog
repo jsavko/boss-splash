@@ -1,3 +1,6 @@
+1.1.5
+Fixed bug with settings panel font list
+
 1.1.4
 Added option to set account level allowed to emit a splash screen. Default: Gamemaster
 

@@ -1,4 +1,4 @@
-Hooks.once("i18nInit", async function () {
+Hooks.once("ready", async function () {
     console.log('Boss Splash Ready - Registrering Socket')
     game.socket.on("module.boss-splash", (data) => {
         displayBossOverlay(data);
@@ -338,7 +338,6 @@ export class BossSplashOverlay extends Application {
         context.fontSize = this.options.fontSize ?? game.settings.get('boss-splash','fontSize');
         context.video = this.options.video;
         context.fill = this.options.fill;
-        //console.log(context)
         return context;
     }    
 
