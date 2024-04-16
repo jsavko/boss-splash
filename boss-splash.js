@@ -1,5 +1,6 @@
-Hooks.once("ready", async function () {
-    console.log('Boss Splash Ready - Registrering Socket')
+
+Hooks.once("init", async function () {
+    console.log('Boss Splash init - Registrering Socket')
     game.socket.on("module.boss-splash", (data) => {
         displayBossOverlay(data);
     })
@@ -144,10 +145,8 @@ Hooks.once("ready", async function () {
         type: Number,
       
     });
-
-
-
 });
+
 
 Hooks.on('renderSettingsConfig', (app, el, data) => {
     // Insert color picker input
@@ -166,7 +165,15 @@ Hooks.on('renderSettingsConfig', (app, el, data) => {
       el.find('[name="boss-splash.colorShadow"]').parent()
       .append(`<input type="color" value="${game.settings.get('boss-splash','colorShadow')}" data-edit="boss-splash.colorShadow">`)
 
-
+    //Render fonts
+   let fontList =  FontConfig.getAvailableFontChoices();
+   const selectedFont = game.settings.get('boss-splash','fontFamily')
+   for(const font in fontList){
+        let setSelected = false;
+        if (selectedFont == fontList[font]) setSelected = true;
+        let o = new Option(fontList[font], font, setSelected, setSelected);
+        el.find('[name="boss-splash.fontFamily"]').append(o)
+    }
 });
 
 Hooks.on('renderTokenHUD', (app, html, context) => { 
@@ -196,7 +203,7 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
             }
           )
     }
-  })
+});
 
 
     async function splashBoss(options={}) {
