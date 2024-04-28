@@ -259,11 +259,11 @@ function displayBossOverlay(options={}) {
     game.bossSplash.currentOverlay = overlay;
 
     const sound = options.sound ?? game.settings.get('boss-splash','bossSound');
-
+    
     if(!!sound) {
         AudioHelper.play({
             src: sound,
-            volume: 0.5,
+            volume: game.settings.get("core", "globalInterfaceVolume"),
             autoplay: true,
             loop: false
         }, true);

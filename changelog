@@ -1,3 +1,7 @@
+1.1.7
+Updated module.json to allow installs on v10
+Updated sound event to use the global interface volume setting
+
 1.1.6
 Move fontlist population to renderSettingsConfig to resolve an issue with context menus
 
