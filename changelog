@@ -1,3 +1,8 @@
+1.1.8
+Updated for v12 support 
+Added Animation Delay setting and override
+Animation Timer starts from the time the overlay is displayed
+
 1.1.7
 Updated module.json to allow installs on v10
 Updated sound event to use the global interface volume setting

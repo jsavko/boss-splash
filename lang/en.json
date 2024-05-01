@@ -17,6 +17,8 @@
     "SETTINGS.BossSplashMessageHint":"Message dispalyed on the color bar. {{name}} will be replaced with actor name.",
     "SETTINGS.BossSplashAnimationDuration":"Animation Duration",
     "SETTINGS.BossSplashAnimationDurationHint":"Number of seconds for animation to finish. Set this to 0 for no animation.",
+    "SETTINGS.BossSplashAnimationDelay": "Animation Delay",
+    "SETTINGS.BossSplashAnimationDelayHint": "Number of miliseconds for animation to be delayed before starting.",
     "SETTINGS.BossSplashFont":"Banner Font",
     "SETTINGS.BossSplashFontHint":"Add new fonts to foundry using the built in font tool to use differnt fonts.",
     "SETTINGS.BossSplashFontSize":"Banner Font Size",

@@ -39,6 +39,7 @@ Macro
     * @param {string} actorImg  Path to an image to display on the banner.
     * @param {number} timer  Number of miliseconds for splash screen to be rendered.
     * @param {number} animationDuration  Number of seconds to complete the slide in animation.
+    * @param {number} animationDelay   Number of miliseconds to delay the animation
     * @param {string} video  Path to video file for splash screen.
     * @param {bool} fill  Stretch video to full screen. defaults false
     * @param {bool} close  Closes open overlay for all players.
@@ -59,6 +60,7 @@ let options = {
   actorImg: null,
   timer: null,
   animationDuration: null,
+  animationDelay: null,
   video: null,
   fill: false,
   close: null 

@@ -143,8 +143,19 @@ Hooks.once("init", async function () {
         default: 3,
         config: true,
         type: Number,
-      
     });
+
+    game.settings.register("boss-splash", "animationDelay", {
+        name: "SETTINGS.BossSplashAnimationDelay",
+        hint: "SETTINGS.BossSplashAnimationDelayHint",
+        scope: "world",
+        default: 0,
+        config: true,
+        type: Number,
+    });
+
+
+
 });
 
 
@@ -208,6 +219,7 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
 
     async function splashBoss(options={}) {
         //if (!game.user.isGM) {
+
         if ( game.user.role <= game.settings.get("boss-splash", "permissions-emit")) { 
             ui.notifications.warn(game.i18n.localize("BossSplash.ErrorGM"));
             return;
@@ -240,7 +252,6 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
 
 
 function displayBossOverlay(options={}) { 
-
     if (options.close) {
         if(game.bossSplash.currentOverlay){ 
             game.bossSplash.currentOverlay.close({force:true})
@@ -254,9 +265,25 @@ function displayBossOverlay(options={}) {
         }
         return
     }
+
     let overlay = new game.bossSplash.bossOverlay(options);
-    overlay.render(true);
-    game.bossSplash.currentOverlay = overlay;
+    let overlayDelay = options.animationDelay ?? game.settings.get('boss-splash','animationDelay');
+    
+    const delayOverlayTimer = setTimeout(async function(){
+        overlay.render(true);
+        game.bossSplash.currentOverlay = overlay;
+
+        // Timer to remove the overlay
+        let timerLength = options.timer ?? game.settings.get('boss-splash','splashTimer') * 1000
+
+        if (timerLength > 0){
+            //Close overlay after delay
+            setTimeout(async function() {
+                    await overlay.close({force:true})
+            }, timerLength);
+       }
+
+    }, overlayDelay)
 
     const sound = options.sound ?? game.settings.get('boss-splash','bossSound');
     
@@ -268,16 +295,6 @@ function displayBossOverlay(options={}) {
             loop: false
         }, true);
     }
-
-    //
-    let timerLength = options.timer ?? game.settings.get('boss-splash','splashTimer') * 1000
-
-    if (timerLength > 0){
-        //Close overlay after delay
-        setTimeout(async function() {
-                await overlay.close({force:true})
-        }, timerLength);
-   }
     
 }
 
@@ -298,7 +315,7 @@ export class BossSplashOverlay extends Application {
     refresh = foundry.utils.debounce(this.render, 100);
 
     static get defaultOptions() {
-        return mergeObject(super.defaultOptions, {
+        return foundry.utils.mergeObject(super.defaultOptions, {
             ...super.defaultOptions,
             id: "boss-splash-overlay",
             popOut: false,
@@ -314,6 +331,7 @@ export class BossSplashOverlay extends Application {
             actorImg: null,
             message: null,
             animationDuration: null,
+            animationDelay: null,
             fontFamily: null,
             fontSize: null,
             video: null,
@@ -341,6 +359,7 @@ export class BossSplashOverlay extends Application {
             context.actorImg = this.options.actorImg
         }
         context.animationDuration = this.options.animationDuration ?? game.settings.get('boss-splash','animationDuration');
+        context.animationDelay = this.options.animationDelay ?? game.settings.get('boss-splash','animationDelay');
         context.fontFamily = this.options.fontFamily ?? game.settings.get('boss-splash','fontFamily');
         context.fontSize = this.options.fontSize ?? game.settings.get('boss-splash','fontSize');
         context.video = this.options.video;
