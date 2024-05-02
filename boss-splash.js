@@ -154,6 +154,14 @@ Hooks.once("init", async function () {
         type: Number,
     });
 
+    game.settings.register("boss-splash", "showTokenHUD", {
+        name: "SETTINGS.BossSplashTokenHUD",
+        hint: "SETTINGS.BossSplashTokenHUDHint",
+        scope: "world",
+        default: true,
+        config: true,
+        type: Boolean,
+    });
 
 
 });
@@ -188,7 +196,7 @@ Hooks.on('renderSettingsConfig', (app, el, data) => {
 });
 
 Hooks.on('renderTokenHUD', (app, html, context) => { 
-    if ( game.user.role >= game.settings.get("boss-splash", "permissions-emit")) {
+    if ( game.user.role >= game.settings.get("boss-splash", "permissions-emit") && game.settings.get("boss-splash", "showTokenHUD")) {
         const token = app?.object?.document; 
         const button = $(`<div class="control-icon boss-splash" title="Splash Boss"><i class="fa-solid fa-bullhorn"></i></div>`);
         button.on('mouseup', () => { 
