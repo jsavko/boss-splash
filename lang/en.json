@@ -14,7 +14,7 @@
     "SETTINGS.BossSplashSound":"Sound",
     "SETTINGS.BossSplashSoundHint":"Play this sound when the splashscreen is rendered",
     "SETTINGS.BossSplashMessage":"Displayed message",
-    "SETTINGS.BossSplashMessageHint":"Message dispalyed on the color bar. {{name}} will be replaced with actor name.",
+    "SETTINGS.BossSplashMessageHint":"Message dispalyed on the color bar. {{actor.name}} and {{token.name}} will be appropiately replaced.",
     "SETTINGS.BossSplashAnimationDuration":"Animation Duration",
     "SETTINGS.BossSplashAnimationDurationHint":"Number of seconds for animation to finish. Set this to 0 for no animation.",
     "SETTINGS.BossSplashAnimationDelay": "Animation Delay",

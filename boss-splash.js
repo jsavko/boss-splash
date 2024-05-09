@@ -121,7 +121,7 @@ Hooks.once("init", async function () {
         name: "SETTINGS.BossSplashMessage",
         hint: "SETTINGS.BossSplashMessageHint",
         scope: "world",
-        default: "{{name}}",
+        default: "{{actor.name}}",
         config: true,
         type: String,
       
@@ -246,6 +246,7 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
             validOptions = true;
         } else if ( canvas.tokens.controlled.length) {
             options.actor = canvas.tokens.controlled[0]?.document.actorId;
+            options.tokenName = canvas.tokens.controlled[0]?.name;
             validOptions = true;
         } 
 
@@ -352,6 +353,7 @@ export class BossSplashOverlay extends Application {
     async getData(options={}) {
         const context = super.getData(options);
         context.actor = this.options.actor ?? null;
+        context.tokenName = this.options.tokenName ?? null;
         context.colorFirst = this.options.colorFirst ?? game.settings.get('boss-splash','colorFirst');
         context.colorSecond = this.options.colorSecond ?? game.settings.get('boss-splash','colorSecond');
         context.colorThird = this.options.colorThird ?? game.settings.get('boss-splash','colorThird');
@@ -362,6 +364,8 @@ export class BossSplashOverlay extends Application {
         context.message = this.options.message ?? game.settings.get('boss-splash','splashMessage');
         if (actor) { 
             context.message = context.message.replace('{{name}}', actor.name);
+            context.message = context.message.replace('{{actor.name}}', actor.name);
+            context.message = context.message.replace('{{token.name}}', options.tokenName);
             context.actorImg = this.options.actorImg ?? actor.img;
         } else { 
             context.actorImg = this.options.actorImg

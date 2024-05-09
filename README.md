@@ -33,7 +33,7 @@ Macro
     * @param {string} colorThird  Hex value for the color of the middle bar in the banner.
     * @param {string} colorFont  Hex value for the text color of the message.
     * @param {string} colorShadow  Hex value for the drop shadow color of the message.
-    * @param {string} message  The message to be rendered in the color bar. {{name}} will be replaced with the actor name
+    * @param {string} message  The message to be rendered in the color bar. {{actor.name}} and {{token.name}} will be replaced with the appropate name
     * @param {string} fontFamily Font Family name for the message.
     * @param {string} fontSize CSS accepted Size of font.
     * @param {string} actorImg  Path to an image to display on the banner.
