@@ -32,10 +32,14 @@ Macro
     * @param {string} colorSecond  Hex value for the color of the middle bar in the banner.
     * @param {string} colorThird  Hex value for the color of the middle bar in the banner.
     * @param {string} colorFont  Hex value for the text color of the message.
+    * @param {string} subColorFont  Hex value for the text color of the subText.
     * @param {string} colorShadow  Hex value for the drop shadow color of the message.
+    * @param {string} subColorShadow  Hex value for the drop shadow color of the subText.
     * @param {string} message  The message to be rendered in the color bar. {{actor.name}} and {{token.name}} will be replaced with the appropate name
+    * @param {string} subText  The sub message to be rendered in the second color bar.
     * @param {string} fontFamily Font Family name for the message.
     * @param {string} fontSize CSS accepted Size of font.
+    * @param {string} subFontSize CSS accepted Size of font for subText.
     * @param {string} actorImg  Path to an image to display on the banner.
     * @param {number} timer  Number of miliseconds for splash screen to be rendered.
     * @param {number} animationDuration  Number of seconds to complete the slide in animation.
@@ -53,10 +57,14 @@ let options = {
   colorSecond:null,
   colorThird: null, 
   colorFont: null,
+  subColorFont: null,
   colorShadow: null,
+  subColorShadow: null,
   message: null, 
+  subText: null,
   fontFamily: null,
   fontSize: null,
+  subFontSize: null,
   actorImg: null,
   timer: null,
   animationDuration: null,

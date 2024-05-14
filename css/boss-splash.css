@@ -63,7 +63,8 @@
 
 .colorSecond h3 {
   position: relative;
-  margin-right: 20%;
+  text-align: right;
+  margin-right: 25%;
   top: -10px;
   border-bottom:none;
 }
@@ -92,5 +93,15 @@
 
   to {
     margin-right: 20%;
+  }
+}
+
+@keyframes sub-slide-right {
+  from {
+    margin-right: 30%;
+  }
+
+  to {
+    margin-right: 25%;
   }
 }
