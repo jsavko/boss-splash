@@ -61,6 +61,13 @@
   /* background-color: #ff8400; */
 }
 
+.colorSecond h3 {
+  position: relative;
+  margin-right: 20%;
+  top: -10px;
+  border-bottom:none;
+}
+
 .colorThird { 
   height: 15px;
   width: 100%; 
