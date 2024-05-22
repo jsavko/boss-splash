@@ -1,3 +1,8 @@
+1.1.11
+Marged subText option by Alaith
+Updated AudioHelper for V12
+Added Color Picker for Settings for Alaith's subText
+
 1.1.10
 Added option for message to include {{actor.name}} and {{token.name}} to be replaced with the appropiate name
 

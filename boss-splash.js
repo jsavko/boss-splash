@@ -221,6 +221,12 @@ Hooks.on('renderSettingsConfig', (app, el, data) => {
       el.find('[name="boss-splash.colorShadow"]').parent()
       .append(`<input type="color" value="${game.settings.get('boss-splash','colorShadow')}" data-edit="boss-splash.colorShadow">`)
 
+      el.find('[name="boss-splash.subColorFont"]').parent()
+      .append(`<input type="color" value="${game.settings.get('boss-splash','subColorFont')}" data-edit="boss-splash.subColorFont">`)
+
+      el.find('[name="boss-splash.subColorShadow"]').parent()
+      .append(`<input type="color" value="${game.settings.get('boss-splash','subColorShadow')}" data-edit="boss-splash.subColorShadow">`)
+
     //Render fonts
    let fontList =  FontConfig.getAvailableFontChoices();
    const selectedFont = game.settings.get('boss-splash','fontFamily')
@@ -334,7 +340,7 @@ function displayBossOverlay(options={}) {
     const sound = options.sound ?? game.settings.get('boss-splash','bossSound');
     
     if(!!sound) {
-        AudioHelper.play({
+        foundry.audio.AudioHelper.play({
             src: sound,
             volume: game.settings.get("core", "globalInterfaceVolume"),
             autoplay: true,
