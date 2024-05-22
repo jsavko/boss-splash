@@ -77,14 +77,6 @@ Hooks.once("init", async function () {
         config: true
     });
 
-    game.settings.register("boss-splash", "subColorFont", {
-        name: "SETTINGS.BossSplashSubColorFont",
-        hint: "SETTINGS.BossSplashSubColorFontHint",
-        scope: "world",
-        type: String,
-        default: '#ffffff',
-        config: true
-    });
 
     game.settings.register("boss-splash", "colorShadow", {
         name: "SETTINGS.BossSplashColorShadow",
@@ -94,6 +86,15 @@ Hooks.once("init", async function () {
         default: '#000000',
         config: true
     });
+
+    game.settings.register("boss-splash", "subColorFont", {
+        name: "SETTINGS.BossSplashSubColorFont",
+        hint: "SETTINGS.BossSplashSubColorFontHint",
+        scope: "world",
+        type: String,
+        default: '#ffffff',
+        config: true
+    }); 
 
     game.settings.register("boss-splash", "subColorShadow", {
         name: "SETTINGS.BossSplashSubColorShadow",
