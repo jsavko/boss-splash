@@ -412,15 +412,18 @@ export class BossSplashOverlay extends Application {
         context.sound = this.options.sound ?? game.settings.get('boss-splash','bossSound');
         let actor = game.actors.get(context.actor)
         context.message = this.options.message ?? game.settings.get('boss-splash','splashMessage');
+        context.subText = this.options.subText ?? game.settings.get('boss-splash','subText');
+
         if (actor) { 
             context.message = context.message.replace('{{name}}', actor.name);
             context.message = context.message.replace('{{actor.name}}', actor.name);
-            context.message = context.message.replace('{{token.name}}', options.tokenName);
+            context.message = context.message.replace('{{token.name}}', options.tokenName)
             context.actorImg = this.options.actorImg ?? actor.img;
+            context.subText = context.subText.replace('{{actor.name}}', actor.name);
+            context.subText = context.subText.replace('{{token.name}}', options.tokenName);
         } else { 
             context.actorImg = this.options.actorImg
         }
-        context.subText = this.options.subText ?? game.settings.get('boss-splash','subText');
         context.animationDuration = this.options.animationDuration ?? game.settings.get('boss-splash','animationDuration');
         context.animationDelay = this.options.animationDelay ?? game.settings.get('boss-splash','animationDelay');
         context.fontFamily = this.options.fontFamily ?? game.settings.get('boss-splash','fontFamily');
