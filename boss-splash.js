@@ -77,9 +77,28 @@ Hooks.once("init", async function () {
         config: true
     });
 
+
     game.settings.register("boss-splash", "colorShadow", {
         name: "SETTINGS.BossSplashColorShadow",
         hint: "SETTINGS.BossSplashColorShadowHint",
+        scope: "world",
+        type: String,
+        default: '#000000',
+        config: true
+    });
+
+    game.settings.register("boss-splash", "subColorFont", {
+        name: "SETTINGS.BossSplashSubColorFont",
+        hint: "SETTINGS.BossSplashSubColorFontHint",
+        scope: "world",
+        type: String,
+        default: '#ffffff',
+        config: true
+    }); 
+
+    game.settings.register("boss-splash", "subColorShadow", {
+        name: "SETTINGS.BossSplashSubColorShadow",
+        hint: "SETTINGS.BossSplashSubColorShadowHint",
         scope: "world",
         type: String,
         default: '#000000',
@@ -117,11 +136,30 @@ Hooks.once("init", async function () {
         type: String,
     });
 
+    game.settings.register("boss-splash", "subFontSize", {
+        name: "SETTINGS.BossSplashSubFontSize",
+        hint: "SETTINGS.BossSplashSubFontSizeHint",
+        scope: "world",
+        default: "30px",
+        config: true,
+        type: String,
+    });
+
     game.settings.register("boss-splash", "splashMessage", {
         name: "SETTINGS.BossSplashMessage",
         hint: "SETTINGS.BossSplashMessageHint",
         scope: "world",
         default: "{{actor.name}}",
+        config: true,
+        type: String,
+      
+    });
+
+    game.settings.register("boss-splash", "subText", {
+        name: "SETTINGS.BossSplashSubText",
+        hint: "SETTINGS.BossSplashSubTextHint",
+        scope: "world",
+        default: "",
         config: true,
         type: String,
       
@@ -183,6 +221,12 @@ Hooks.on('renderSettingsConfig', (app, el, data) => {
 
       el.find('[name="boss-splash.colorShadow"]').parent()
       .append(`<input type="color" value="${game.settings.get('boss-splash','colorShadow')}" data-edit="boss-splash.colorShadow">`)
+
+      el.find('[name="boss-splash.subColorFont"]').parent()
+      .append(`<input type="color" value="${game.settings.get('boss-splash','subColorFont')}" data-edit="boss-splash.subColorFont">`)
+
+      el.find('[name="boss-splash.subColorShadow"]').parent()
+      .append(`<input type="color" value="${game.settings.get('boss-splash','subColorShadow')}" data-edit="boss-splash.subColorShadow">`)
 
     //Render fonts
    let fontList =  FontConfig.getAvailableFontChoices();
@@ -297,7 +341,7 @@ function displayBossOverlay(options={}) {
     const sound = options.sound ?? game.settings.get('boss-splash','bossSound');
     
     if(!!sound) {
-        AudioHelper.play({
+        foundry.audio.AudioHelper.play({
             src: sound,
             volume: game.settings.get("core", "globalInterfaceVolume"),
             autoplay: true,
@@ -336,13 +380,17 @@ export class BossSplashOverlay extends Application {
             colorSecond: null,
             colorThird: null,
             colorFont: null,
+            subColorFont: null,
             colorShadow: null,
+            subColorShadow: null,
             actorImg: null,
             message: null,
+            subText: null,
             animationDuration: null,
             animationDelay: null,
             fontFamily: null,
             fontSize: null,
+            subFontSize: null,
             video: null,
             fill: false
         });
@@ -358,15 +406,21 @@ export class BossSplashOverlay extends Application {
         context.colorSecond = this.options.colorSecond ?? game.settings.get('boss-splash','colorSecond');
         context.colorThird = this.options.colorThird ?? game.settings.get('boss-splash','colorThird');
         context.colorFont = this.options.colorFont ?? game.settings.get('boss-splash','colorFont');
+        context.subColorFont  = this.options.subColorFont ?? game.settings.get('boss-splash','subColorFont');
         context.colorShadow = this.options.colorShadow ?? game.settings.get('boss-splash','colorShadow');
+        context.subColorShadow = this.options.subColorShadow ?? game.settings.get('boss-splash','subColorShadow');
         context.sound = this.options.sound ?? game.settings.get('boss-splash','bossSound');
         let actor = game.actors.get(context.actor)
         context.message = this.options.message ?? game.settings.get('boss-splash','splashMessage');
+        context.subText = this.options.subText ?? game.settings.get('boss-splash','subText');
+
         if (actor) { 
             context.message = context.message.replace('{{name}}', actor.name);
             context.message = context.message.replace('{{actor.name}}', actor.name);
-            context.message = context.message.replace('{{token.name}}', options.tokenName);
+            context.message = context.message.replace('{{token.name}}', options.tokenName)
             context.actorImg = this.options.actorImg ?? actor.img;
+            context.subText = context.subText.replace('{{actor.name}}', actor.name);
+            context.subText = context.subText.replace('{{token.name}}', options.tokenName);
         } else { 
             context.actorImg = this.options.actorImg
         }
@@ -374,6 +428,7 @@ export class BossSplashOverlay extends Application {
         context.animationDelay = this.options.animationDelay ?? game.settings.get('boss-splash','animationDelay');
         context.fontFamily = this.options.fontFamily ?? game.settings.get('boss-splash','fontFamily');
         context.fontSize = this.options.fontSize ?? game.settings.get('boss-splash','fontSize');
+        context.subFontSize = this.options.subFontSize ?? game.settings.get('boss-splash','subFontSize');
         context.video = this.options.video;
         context.fill = this.options.fill;
         return context;

@@ -6,6 +6,11 @@
   animation-name:  slide-right;
 }
 
+.sub-slide-right {
+  animation-duration: {{animationDuration}}s;
+  animation-name: sub-slide-right;
+}
+
 .slide-left { 
   animation-duration: {{animationDuration}}s;
   animation-name:  slide-left;
@@ -20,7 +25,13 @@
           {{message}}
           </h2>
     </div>
-    <div class='colorSecond' style="background-color: {{colorSecond}}"></div>
+    <div class='colorSecond' style="background-color: {{colorSecond}}">
+          {{#if subText}}
+          <h3 name="bossSubText" class="sub-slide-right" style="color: {{subColorFont}}; text-shadow: 3px 3px {{subColorShadow}}; font-family: {{fontFamily}}; font-size: {{subFontSize}}">
+          {{subText}}
+          </h3>
+          {{/if}}
+    </div>
     <div class='colorThird'  style="background-color: {{colorThird}}"></div>
   </div>
 </div>
