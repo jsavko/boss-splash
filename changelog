@@ -1,3 +1,7 @@
+1.2.0
+Removed jQuery dependancy
+Updated hooks to v13
+
 1.1.11
 Marged subText option by Alaith
 Updated AudioHelper for V12
