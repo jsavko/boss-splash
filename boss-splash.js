@@ -205,55 +205,71 @@ Hooks.once("init", async function () {
 });
 
 
+// Helper function to create and insert a color input
+function insertColorPicker(el, name, value) {
+  const target = el.querySelector(`[name="${name}"]`);
+  if (target && target.parentElement) {
+    const input = document.createElement("input");
+    input.type = "color";
+    input.value = value;
+    input.setAttribute("data-edit", name);
+    target.parentElement.appendChild(input);
+  }
+}
+
+
 Hooks.on('renderSettingsConfig', (app, el, data) => {
     // Insert color picker input
-    el.find('[name="boss-splash.colorFirst"]').parent()
-      .append(`<input type="color" value="${game.settings.get('boss-splash','colorFirst')}" data-edit="boss-splash.colorFirst">`)
-
-      el.find('[name="boss-splash.colorSecond"]').parent()
-    .append(`<input type="color" value="${game.settings.get('boss-splash','colorSecond')}" data-edit="boss-splash.colorSecond">`)
-
-    el.find('[name="boss-splash.colorThird"]').parent()
-      .append(`<input type="color" value="${game.settings.get('boss-splash','colorThird')}" data-edit="boss-splash.colorThird">`)
-    
-    el.find('[name="boss-splash.colorFont"]').parent()
-      .append(`<input type="color" value="${game.settings.get('boss-splash','colorFont')}" data-edit="boss-splash.colorFont">`)
-
-      el.find('[name="boss-splash.colorShadow"]').parent()
-      .append(`<input type="color" value="${game.settings.get('boss-splash','colorShadow')}" data-edit="boss-splash.colorShadow">`)
-
-      el.find('[name="boss-splash.subColorFont"]').parent()
-      .append(`<input type="color" value="${game.settings.get('boss-splash','subColorFont')}" data-edit="boss-splash.subColorFont">`)
-
-      el.find('[name="boss-splash.subColorShadow"]').parent()
-      .append(`<input type="color" value="${game.settings.get('boss-splash','subColorShadow')}" data-edit="boss-splash.subColorShadow">`)
+    insertColorPicker(el, "boss-splash.colorFirst", game.settings.get("boss-splash", "colorFirst"));
+    insertColorPicker(el, "boss-splash.colorSecond", game.settings.get("boss-splash", "colorSecond"));
+    insertColorPicker(el, "boss-splash.colorThird", game.settings.get("boss-splash", "colorThird"));
+    insertColorPicker(el, "boss-splash.colorFont", game.settings.get("boss-splash", "colorFont"));
+    insertColorPicker(el, "boss-splash.colorShadow", game.settings.get("boss-splash", "colorShadow"));
+    insertColorPicker(el, "boss-splash.subColorFont", game.settings.get("boss-splash", "subColorFont"));
+    insertColorPicker(el, "boss-splash.subColorShadow", game.settings.get("boss-splash", "subColorShadow"));
 
     //Render fonts
    let fontList =  FontConfig.getAvailableFontChoices();
    const selectedFont = game.settings.get('boss-splash','fontFamily')
+   const fontSelect = el.querySelector('[name="boss-splash.fontFamily"]');
+   
    for(const font in fontList){
         let setSelected = false;
         if (selectedFont == fontList[font]) setSelected = true;
         let o = new Option(fontList[font], font, setSelected, setSelected);
-        el.find('[name="boss-splash.fontFamily"]').append(o)
+        fontSelect.appendChild(o);
     }
 });
 
 Hooks.on('renderTokenHUD', (app, html, context) => { 
     if ( game.user.role >= game.settings.get("boss-splash", "permissions-emit") && game.settings.get("boss-splash", "showTokenHUD")) {
         const token = app?.object?.document; 
-        const button = $(`<div class="control-icon boss-splash" title="Splash Boss"><i class="fa-solid fa-bullhorn"></i></div>`);
-        button.on('mouseup', () => { 
-            game.bossSplash.splashBoss()
-        } );
-        const column = '.col.left';
-        html.find(column).append(button);
+
+        const button = document.createElement("div");
+        button.className = "control-icon boss-splash";
+        button.title = "Splash Boss";
+
+        const icon = document.createElement("i");
+        icon.className = "fa-solid fa-bullhorn";
+        button.appendChild(icon);
+
+        // Add event listener
+        button.addEventListener("mouseup", () => {
+            game.bossSplash.splashBoss();
+        });
+
+        // `Find` the left column and append the button
+        const column = html.querySelector(".col.left");
+        if (column) {
+        column.appendChild(button);
+        }
+
     }
 });
 
 
 
-Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
+Hooks.on('getActorContextOptions', (html, options)=>{
     if ( game.user.role >= game.settings.get("boss-splash", "permissions-emit")) {
         options.push(
             {
@@ -261,7 +277,8 @@ Hooks.on('getActorDirectoryEntryContext', (html, options)=>{
               "icon": `<i class="fa-solid fa-bullhorn"></i>`,
               "element": {},
               callback: li => {
-                splashBoss({actor: li.data("documentId")})
+                const selectedActor = li.dataset.documentId ?? li.dataset.entryId;
+                splashBoss({actor: selectedActor})
               }
             }
           )
@@ -375,6 +392,7 @@ export class BossSplashOverlay extends Application {
             classes: ["bossplash"],
             template: 'modules/boss-splash/templates/boss-splash.hbs',
             actor:null,
+            token:null,
             sound:null, 
             colorFirst: null,
             colorSecond: null,
@@ -401,6 +419,7 @@ export class BossSplashOverlay extends Application {
     async getData(options={}) {
         const context = super.getData(options);
         context.actor = this.options.actor ?? null;
+        context.token = this.options.token ?? null;
         context.tokenName = this.options.tokenName ?? null;
         context.colorFirst = this.options.colorFirst ?? game.settings.get('boss-splash','colorFirst');
         context.colorSecond = this.options.colorSecond ?? game.settings.get('boss-splash','colorSecond');
@@ -416,11 +435,14 @@ export class BossSplashOverlay extends Application {
 
         if (actor) { 
             context.message = context.message.replace('{{name}}', actor.name);
-            context.message = context.message.replace('{{actor.name}}', actor.name);
+            //context.message = context.message.replace('{{actor.name}}', actor.name);
             context.message = context.message.replace('{{token.name}}', options.tokenName)
             context.actorImg = this.options.actorImg ?? actor.img;
-            context.subText = context.subText.replace('{{actor.name}}', actor.name);
+            //context.subText = context.subText.replace('{{actor.name}}', actor.name);
             context.subText = context.subText.replace('{{token.name}}', options.tokenName);
+            context.message = Handlebars.compile(context.message)({actor: actor});
+            context.subText = Handlebars.compile(context.subText)({actor: actor});
+
         } else { 
             context.actorImg = this.options.actorImg
         }
@@ -431,6 +453,7 @@ export class BossSplashOverlay extends Application {
         context.subFontSize = this.options.subFontSize ?? game.settings.get('boss-splash','subFontSize');
         context.video = this.options.video;
         context.fill = this.options.fill;
+        console.log(context)
         return context;
     }    
 
