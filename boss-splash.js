@@ -435,10 +435,8 @@ export class BossSplashOverlay extends Application {
 
         if (actor) { 
             context.message = context.message.replace('{{name}}', actor.name);
-            //context.message = context.message.replace('{{actor.name}}', actor.name);
             context.message = context.message.replace('{{token.name}}', options.tokenName)
             context.actorImg = this.options.actorImg ?? actor.img;
-            //context.subText = context.subText.replace('{{actor.name}}', actor.name);
             context.subText = context.subText.replace('{{token.name}}', options.tokenName);
             context.message = Handlebars.compile(context.message)({actor: actor});
             context.subText = Handlebars.compile(context.subText)({actor: actor});
@@ -453,7 +451,6 @@ export class BossSplashOverlay extends Application {
         context.subFontSize = this.options.subFontSize ?? game.settings.get('boss-splash','subFontSize');
         context.video = this.options.video;
         context.fill = this.options.fill;
-        console.log(context)
         return context;
     }    
 
