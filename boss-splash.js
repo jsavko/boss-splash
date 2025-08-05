@@ -213,6 +213,11 @@ function insertColorPicker(el, name, value) {
     input.type = "color";
     input.value = value;
     input.setAttribute("data-edit", name);
+
+    input.addEventListener('change', function() {
+      target.value = this.value;
+    });
+
     target.parentElement.appendChild(input);
   }
 }
