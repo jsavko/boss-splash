@@ -1,10 +1,10 @@
 {
     "id": "boss-splash",
     "title": "Boss Splash Screen",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "compatibility": {
       "minimum": "13",
-      "verified": "13"
+      "verified": "14"
     },
     "esmodules": [
       "boss-splash.js"

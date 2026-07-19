@@ -29,7 +29,7 @@ Hooks.once("init", async function () {
         default: 3,
         type: Number,
         choices: permissionLevels,
-        onChange: debouncedReload
+        onChange: foundry.utils.debounce(window.location.reload, 100)
     });
 
     game.settings.register("boss-splash", "colorFirst", {
