@@ -1,7 +1,7 @@
 {
     "id": "boss-splash",
     "title": "Boss Splash Screen",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "compatibility": {
       "minimum": "13",
       "verified": "14"
@@ -28,6 +28,7 @@
       }
     ],
     "socket": true,
+    "url": "https://github.com/jsavko/boss-splash",
     "manifest": "https://github.com/jsavko/boss-splash/releases/latest/download/module.json",
-    "download": "https://github.com/jsavko/boss-splash/releases/download/1.2.1/module.zip"
+    "download": "https://github.com/jsavko/boss-splash/releases/download/1.2.3/module.zip"
   }

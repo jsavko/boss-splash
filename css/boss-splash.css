@@ -19,6 +19,16 @@
   pointer-events: none;
 }
 
+.actorArt img.actorSilhouette {
+  filter: brightness(0);
+  z-index: 1;
+}
+
+@keyframes silhouette-fade {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
 .stroke {
   filter: drop-shadow(3px 0 0 #faf9f6) 
   drop-shadow(0 3px 0 #faf9f6)
@@ -33,6 +43,7 @@
     width:100%; 
     opacity: 1;
     display: block;
+      z-index: 4;
 }
 
 .colorFirst {
@@ -40,6 +51,7 @@
   width:100%; 
   display:block;
   /* background-color: #ffd502; */
+    z-index: 4;
 }
 
 .colorFirst h2 {
@@ -52,6 +64,7 @@
   top: -30px;
   border-bottom:none;
   text-transform: uppercase;
+    z-index: 4;
 }
 
 .colorSecond {
@@ -59,6 +72,7 @@
   width: 100%; 
   display:block;
   /* background-color: #ff8400; */
+    z-index: 4;
 }
 
 .colorSecond h3 {
@@ -67,6 +81,7 @@
   margin-right: 25%;
   top: -10px;
   border-bottom:none;
+    z-index: 4;
 }
 
 .colorThird { 
@@ -74,6 +89,7 @@
   width: 100%; 
   display:block;
   /* background-color: #ff1f9c; */
+    z-index: 4;
 }
 
 @keyframes slide-left {

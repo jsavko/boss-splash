@@ -15,9 +15,20 @@
   animation-duration: {{animationDuration}}s;
   animation-name:  slide-left;
 }
+
+.silhouette-reveal {
+  animation-name: slide-left, silhouette-fade;
+  animation-duration: {{animationDuration}}s, {{revealDuration}}s;
+  animation-delay: 0s, {{animationDuration}}s;
+  animation-fill-mode: none, forwards;
+}
+
   </style>
   <div class="actorArt">
   <img name="actorImg" class="slide-left" src="{{actorImg}}"> 
+  {{#if revealDuration}}
+  <img name="actorImgSilhouette" class="silhouette-reveal actorSilhouette" src="{{actorImg}}">
+  {{/if}}
   </div>
   <div class='colorBand'>
     <div class='colorFirst' style="background-color: {{colorFirst}}">

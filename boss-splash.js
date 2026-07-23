@@ -201,6 +201,14 @@ Hooks.once("init", async function () {
         type: Boolean,
     });
 
+    game.settings.register("boss-splash", "revealDuration", {
+    name: "SETTINGS.BossSplashRevealDuration",
+    hint: "SETTINGS.BossSplashRevealDurationHint",
+    scope: "world",
+    default: 0,
+    config: true,
+    type: Number,
+});
 
 });
 
@@ -411,6 +419,7 @@ export class BossSplashOverlay extends Application {
             subText: null,
             animationDuration: null,
             animationDelay: null,
+            revealDuration: null,
             fontFamily: null,
             fontSize: null,
             subFontSize: null,
@@ -451,6 +460,7 @@ export class BossSplashOverlay extends Application {
         }
         context.animationDuration = this.options.animationDuration ?? game.settings.get('boss-splash','animationDuration');
         context.animationDelay = this.options.animationDelay ?? game.settings.get('boss-splash','animationDelay');
+        context.revealDuration = this.options.revealDuration ?? game.settings.get('boss-splash','revealDuration');
         context.fontFamily = this.options.fontFamily ?? game.settings.get('boss-splash','fontFamily');
         context.fontSize = this.options.fontSize ?? game.settings.get('boss-splash','fontSize');
         context.subFontSize = this.options.subFontSize ?? game.settings.get('boss-splash','subFontSize');
